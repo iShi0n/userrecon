@@ -1,6 +1,7 @@
-import requests
-import sys
+#!/usr/bin/python3
 
+import requests
+from sys import argv
 
 banner="""
  █    ██   ██████ ▓█████  ██▀███   ██▀███  ▓█████  ▄████▄   ▒█████   ███▄    █ 
@@ -15,6 +16,6 @@ banner="""
                                                   ░                by \033[1;36m@shi0n04\033[m
 """
 
-
-
-print(banner)
+if len(argv) < 2 or len(argv) > 2:
+    exit(f"error: invalid argvs\nusage: python3 {argv[0]} username")
+    
