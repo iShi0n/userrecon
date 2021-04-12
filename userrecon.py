@@ -22,6 +22,8 @@ class UserRecon:
     for f in functions:
       result: Result = f()
       
+      #TODO: adicionar cor
+      
       if result.exists:
         print(f"{result.service_name}: {result.url}")
       else:
