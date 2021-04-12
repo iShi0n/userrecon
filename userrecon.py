@@ -47,4 +47,4 @@ banner="""
 if len(argv) < 2 or len(argv) > 2:
     exit(f"error: invalid argvs\nusage: python3 {argv[0]} username")
     
-user_recon = UserRecon("user").check_all()
+user_recon = UserRecon(argv[1]).check_all()
