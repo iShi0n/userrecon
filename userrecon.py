@@ -19,15 +19,19 @@ class UserRecon:
     functions = list(filter(lambda item: (item.startswith("check_") and item != "check_all"), dir(self)))
     functions = [getattr(self, f) for f in functions]
     
+    #TODO: nome em negrito
+    print(f"[i] Buscando {self.username} em {len(functions)} sites...\n")
+
     for f in functions:
       result: Result = f()
       
       #TODO: adicionar cor
 
       if result.exists:
-        print(f"{result.service_name}: {result.url}")
+        print(f"[*] {result.service_name}: {result.url}")
       else:
-        print(f"{result.service_name}: Not found")
+        print(f"[x] {result.service_name}: não encontrado.")
+        
 
   def check_facebook(self) -> Result:
     response = requests.get("https://m.facebook.com/"+self.username, headers=self.headers)
