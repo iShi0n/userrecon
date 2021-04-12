@@ -4,36 +4,43 @@ import requests
 from sys import argv
 
 class Result:
-  def __init__(self, exists: bool, status_code: int, username: str) -> None:
+  def __init__(self, service_name: str, exists: bool, username: str, url: str) -> None:
+    self.service_name = service_name
     self.exists = exists
-    self.status_code = status_code
     self.username = username
+    self.url = url
 
 class UserRecon:
   def __init__(self, username) -> None:
     self.username = username
+    self.headers = {"user-agent":"userrecon/1.0"}
 
   def check_all(self):
     functions = list(filter(lambda item: (item.startswith("check_") and item != "check_all"), dir(self)))
     functions = [getattr(self, f) for f in functions]
     
     for f in functions:
-      ...
-
-  def check_facebook(self) -> bool:
-    response = requests.get("https://m.facebook.com/"+self.username)
-    
-    return Result(True if response.status_code == 200 else False, response.status_code, self.username)
-
-  def check_tiktok(self) -> bool:
-    response = requests.get("https://www.tiktok.com/@"+self.username)
+      result: Result = f()
       
-    return Result(True if response.status_code == 200 else False, response.status_code, self.username)
+      if result.exists:
+        print(f"{result.service_name}: {result.url}")
+      else:
+        print(f"{result.service_name}: Not found")
 
-  def instagram(self) -> bool:
-    response = requests.get("https://www.instagram.com/"+self.username)
+  def check_facebook(self) -> Result:
+    response = requests.get("https://m.facebook.com/"+self.username, headers=self.headers)
     
-    return Result(True if response.status_code == 200 else False, response.status_code, self.username)
+    return Result("Facebook", True if response.status_code == 200 else False, self.username, response.url)
+
+  def check_tiktok(self) -> Result:
+    response = requests.get("https://www.tiktok.com/@"+self.username, headers=self.headers)
+      
+    return Result("TikTok", True if response.status_code == 200 else False,  self.username, response.url)
+
+  def check_instagram(self) -> Result:
+    response = requests.get("https://www.instagram.com/"+self.username, headers=self.headers)
+    
+    return Result("Instagram", True if response.status_code == 200 else False, self.username, response.url)
     
 
 banner="""
