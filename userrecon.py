@@ -41,7 +41,11 @@ class UserRecon:
     response = requests.get("https://www.instagram.com/"+self.username, headers=self.headers)
     
     return Result("Instagram", True if response.status_code == 200 else False, self.username, response.url)
+  
+  def check_lastfm(self) -> Result:
+    response = requests.get("https://www.last.fm/user/"+self.username, headers=self.headers)
     
+    return Result("Last.fm", True if response.status_code == 200 else False, self.username, response.url)
 
 banner="""
  █    ██   ██████ ▓█████  ██▀███   ██▀███  ▓█████  ▄████▄   ▒█████   ███▄    █ 
