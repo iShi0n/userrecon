@@ -23,7 +23,7 @@ class UserRecon:
       result: Result = f()
       
       #TODO: adicionar cor
-      
+
       if result.exists:
         print(f"{result.service_name}: {result.url}")
       else:
@@ -62,7 +62,9 @@ banner="""
                                                   ░                by \033[1;36m@shi0n04\033[m
 """
 
+print(banner)
+
 if len(argv) < 2 or len(argv) > 2:
-    exit(f"error: invalid argvs\nusage: python3 {argv[0]} username")
+  exit(f"error: invalid argvs\nusage: python3 {argv[0]} username")
     
 user_recon = UserRecon(argv[1]).check_all()
