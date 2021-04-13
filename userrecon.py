@@ -15,6 +15,11 @@ class UserRecon:
     self.username = username
     self.headers = {"user-agent":"userrecon/1.0"}
 
+  def method_status_code(self, url: str):
+    response = requests.get(url, headers=self.headers)
+
+    return True if response.status_code == 200 else False
+
   def check_all(self):
     functions = list(filter(lambda item: (item.startswith("check_") and item != "check_all"), dir(self)))
     functions = [getattr(self, f) for f in functions]
@@ -34,24 +39,28 @@ class UserRecon:
         
 
   def check_facebook(self) -> Result:
-    response = requests.get("https://m.facebook.com/"+self.username, headers=self.headers)
-    
-    return Result("Facebook", True if response.status_code == 200 else False, self.username, response.url)
+    url = "https://m.facebook.com/"+self.username
+    result = self.method_status_code(url)
+
+    return Result("Facebook", result, self.username, url)
 
   def check_tiktok(self) -> Result:
-    response = requests.get("https://www.tiktok.com/@"+self.username, headers=self.headers)
-      
-    return Result("TikTok", True if response.status_code == 200 else False,  self.username, response.url)
+    url = "https://www.tiktok.com/@"+self.username
+    result = self.method_status_code(url)
+
+    return Result("TikTok", result, self.username, url)
 
   def check_instagram(self) -> Result:
-    response = requests.get("https://www.instagram.com/"+self.username, headers=self.headers)
+    url = "https://www.instagram.com/"+self.username
+    result = self.method_status_code(url)
     
-    return Result("Instagram", True if response.status_code == 200 else False, self.username, response.url)
+    return Result("Instagram", result, self.username, url)
   
   def check_lastfm(self) -> Result:
-    response = requests.get("https://www.last.fm/user/"+self.username, headers=self.headers)
+    url = "https://www.last.fm/user/"+self.username
+    result = self.method_status_code(url)
     
-    return Result("Last.fm", True if response.status_code == 200 else False, self.username, response.url)
+    return Result("Last.fm", result, self.username, url)
 
 banner="""
  █    ██   ██████ ▓█████  ██▀███   ██▀███  ▓█████  ▄████▄   ▒█████   ███▄    █ 
