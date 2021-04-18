@@ -33,7 +33,7 @@ class UserRecon:
       #TODO: adicionar cor
 
       if result.exists:
-        print(f"[*] {result.service_name}: {result.url}")
+        print(f"[+] {result.service_name}: {result.url}")
       else:
         print(f"[x] {result.service_name}: não encontrado.")
         
@@ -61,6 +61,12 @@ class UserRecon:
     result = self.method_status_code(url)
     
     return Result("Last.fm", result, self.username, url)
+  
+  def check_github(self) -> Result:
+    url = "https://github.com/"+self.username
+    result = self.method_status_code(url)
+    
+    return Result("Github", result, self.username, url)
 
 banner="""
  █    ██   ██████ ▓█████  ██▀███   ██▀███  ▓█████  ▄████▄   ▒█████   ███▄    █ 
